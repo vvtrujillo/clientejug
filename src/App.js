@@ -1,24 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import FormJugador from './Componentes/FormJugador';
+import React from 'react';
+import axios from 'axios';
+import { useState } from 'react';
+
 
 function App() {
+
+  const[data, setData] = useState([]);
+
+  const agregar = (obj) => {
+    axios.post('http://localhost:8000/api/v1/jugadores', obj)
+      .then(respuesta => {
+        setData([...data, respuesta.datos.data])
+      });
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <FormJugador agregarFn={agregar}></FormJugador>
+    </React.Fragment>    
   );
 }
 
